@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# scan a network looking for used IP addresses...
+
+#get subnet
+
+net=${1:-"192.168.0"}
+
+for ip in $(seq 1 254); do ping -c 1 $net.$ip>/dev/null;
+    [ $? -eq 0 ] && echo "$net.$ip UP" || : ;
+done

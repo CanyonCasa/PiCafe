@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# list all users currently defined on the system...
+echo $(cat /etc/passwd | grep '/bin/bash' | cut -d: -f1 | tr '\n' ' ')

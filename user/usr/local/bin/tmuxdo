@@ -1,0 +1,11 @@
+#!/bin/bash
+# script to setup terminal multiplexer for a specific user.
+# parameters
+WHO=js
+NAME=tmux
+SCRIPT=/usr/local/bin/tmux
+ARGS="-c /home/$USER/.tmux.init"
+XARGS="kill-server"
+
+echo "${NAME}-${WHO}"
+echo "${NAME}-${USER}"

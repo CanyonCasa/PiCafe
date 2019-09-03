@@ -1,0 +1,17 @@
+#!/bin/bash
+#/usr/local/bin/bsync
+
+# script for collectively cleaning up old files and such ...
+# add commands as apporpriate
+
+# remove old temp log files, 15 days or more older
+find /tmp/*log* -mtime +15 -delete
+
+# remove web logs
+find /home/js/logs/* -mtime +15 -delete
+
+# report log...
+#cp $log $logRoot
+#subj=`echo "$HOSTNAME CLEANUP" | tr a-z A-Z`
+#postlog $log "$subj" 0 "CLEANUP"
+#cat $log | /usr/local/bin/mailto.py "$subj"

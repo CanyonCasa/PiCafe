@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# script to setup terminal multiplexer for a specific user.
+# parameters
+
+echo "I am $USER doing $0"
+x=$( dirname $0 )
+
+method=${1:-bak}
+
+. backup.data $method
+
+echo "$x results..."
+
+set | grep $method
+
+echo "That's all folks...."
+

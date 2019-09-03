@@ -1,0 +1,85 @@
+{
+  "bootstrap": {
+  "extend": "",
+  "tasks": [
+      {
+        "cmd": "cp -R /boot/PiCafe/user/ /",
+        "prompt": "Copy PiCafe user folder (i.e. personal utilities, ...) to root ..."
+      },
+      {
+        "cmd": "ln -s /usr/local/bin /u",
+        "prompt": "Generate a (shortcut) link: /u => /usr/local/bin"
+      },
+      {
+        "cmd": "ln -s /usr/local/bin /u",
+        "prompt": "Generate a (shortcut) link: /e => /usr/local/etc"
+      },
+      {
+        "cmd": "ln -s /usr/local/bin /u",
+        "prompt": "Generate a (shortcut) link: /i => /etc/init.d"
+      },
+      {
+        "cmd": "raspi-config nonint do_hostname %hostname",
+        "hostname": "blue",
+        "prompt": "Configure hostname: %hostname"
+      },
+      {
+        "cmd": "raspi-config nonint do_ssh 0",
+        "prompt": "Enable SSH"
+      },
+      {
+        "cmd": "raspi-config nonint do_change_locale %locale",
+        "locale": "en_US.UTF-8",
+        "prompt": "Change locale to: %locale"
+      },
+      {
+        "cmd": "raspi-config nonint do_configure_keyboard %keyboard",
+        "keyboard": "us",
+        "prompt": "Change keyboard to: %keyboard"
+      },
+      {
+        "cmd": "echo",
+        "prompt": "Setup complete...",
+        "reboot": true
+      }
+    ]
+  },
+  "patch": {
+    "source": "2019-06-20-raspbian-buster-lite.img",
+    "xsource": "/dev/sda",
+    "dest": "buster-patched-test.img",
+    "xdest": "/dev/sda",
+    "mount": "/mnt/rpi_build",
+    "tasks": [
+      {
+        "cmd": "cp -R PiCafe/ %mount/boot/",
+        "prompt": "Copy PiCafe folder to /boot ..."
+      },
+      {
+        "cmd": "echo %size > %mount/boot/root_partition_size",
+        "prompt": "Define /boot/root_partition_size file ...",
+        "size": "2560mb"
+      },
+      {
+        "cmd": "mv -n %mount/usr/lib/raspi-config/init_resize.sh %mount/usr/lib/raspi-config/init_resize.sh.orig",
+        "prompt": "Backup /usr/lib/raspi-config/init_resize.sh to /usr/lib/raspi-config/init_resize.sh.orig"
+      },
+      {
+        "cmd": "cp -f %mount/boot/PiCafe/patch/init_resize.sh %mount/usr/lib/raspi-config/init_resize.sh",
+        "prompt": "Replace /usr/lib/raspi-config/init_resize.sh"
+      },
+      {
+        "cmd": "mv -n %mount/etc/rc.local %mount/etc/rc.local.orig",
+        "prompt": "Backup /etc/rc.local to /etc/rc.local.orig"
+      },
+      {
+        "cmd": "cp -f %mount/boot/PiCafe/patch/rc.local %mount/etc/rc.local",
+        "prompt": "Replace /etc/rc.local"
+      },
+      {
+        "cmd": "echo 1 > %mount/boot/PiCafe/task",
+        "prompt": "Define starting task for bootstrap script..."
+      }
+    ]
+  }
+}

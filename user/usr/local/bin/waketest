@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+use Socket;
+    ($name, $aliases, $addrtype,
+          $length, @addrs) = gethostbyname "papa";
+    $ip =  join(":",(unpack('C4',$addrs[0])));
+    print "Host name is $name\n";
+    print "Aliases is $aliases\n";
+    print "Address type is $addrtype\n";
+    print "Length is $length\n";
+    print "Addresses:",@addrs,"\n";
+    print "IP Address[0]:",$ip,"\n";
+

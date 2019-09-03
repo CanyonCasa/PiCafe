@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# redirect port 80 to unprivileged port 8080
+iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 8080
+# redirect port 88 to unprivileged port 8080
+#iptables -A PREROUTING -t nat -p tcp --dport 88 -j REDIRECT --to-port 8080
+# display the current routing
+iptables --list -t nat -n
+
+

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+los() (
+  img="$1"
+  dev="$(sudo losetup --show -f -P "$img")"
+  echo "$dev"
+  for part in "$dev"?*; do
+    if [ "$part" = "${dev}p*" ]; then
+      part="${dev}"
+    fi
+    dst="/mnt/$(basename "$part")"
+    echo "$dst"
+    sudo mkdir -p "$dst"
+    sudo mount "$part" "$dst"
+  done
+)
+
+losd() (
+  dev="/dev/loop$1"
+  for part in "$dev"?*; do
+    if [ "$part" = "${dev}p*" ]; then
+      part="${dev}"
+    fi
+    dst="/mnt/$(basename "$part")"
+    sudo umount "$dst"
+    rmdir "$dst"  2>/dev/null # added to cleanup mountpoints
+  done
+  sudo losetup -d "$dev"
+)
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   echo "SYNTAX: $0 <dd_img_file> | <loop_number>"
+   exit 1
+fi
+
+if [ -f $1 ]; then
+  los $1
+fi
+
+if [ -b "/dev/loop$1" ]; then
+  losd $1
+fi

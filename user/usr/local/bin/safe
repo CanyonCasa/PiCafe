@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# mounts backup drive
+
+mount -t ext4 /dev/disk/by-label/safe /mnt/safe
+

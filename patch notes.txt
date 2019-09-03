@@ -1,0 +1,18 @@
+patch notes.txt
+
+# copy image to working image...
+
+# mount image as loop device using lox script...
+lox <working_img>
+# mounted as /mnt/loop0...
+
+# copy PiCafe folder to boot partition
+sudo cp PiCafe/ /mnt/loop0p1/ -R
+
+# fix /etc/rc.local on root partition
+sudo mv /mnt/loop0p2/etc/rc.local /mnt/loop0p2/etc/rc.local.orig
+sudo cp /mnt/loop0p1/PiCafe/patch/rc.local /mnt/loop0p2/etc/rc.local
+
+# fix init_resize.sh
+sudo mv /mnt/loop0p2/usr/lib/raspi-config/init_resize.sh /mnt/loop0p2/usr/lib/raspi-config/init_resize.sh.orig
+sudo cp /mnt/loop0p1/PiCafe/patch/init_resize.sh /mnt/loop0p2/usr/lib/raspi-config/init_resize.sh

@@ -1,0 +1,27 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel. Make sure that the script will "exit 0" on success or any 
+# other value on error.
+#
+# In order to enable or disable this script just change the execution bits.
+#
+# By default this script does nothing. Print the IP address
+
+# embellished to display name for diagnostics 
+_IP=$(hostname -I) || true
+_NAME=$(hostname) || true
+
+if [ "$_IP" ]; then
+  printf "My name is %s and my IP address is %s\n" "$_NAME" "$_IP"
+fi
+
+# added to bootstrap build process...
+bscript="/boot/PiCafe/bootstrap.sh"
+if [ -f "$bscript" ]; then
+  echo "Boot script file [ $bscript ] exists; executing..."
+  $bscript &
+fi
+
+exit 0

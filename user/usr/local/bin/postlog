@@ -1,0 +1,31 @@
+#!/bin/bash
+# test of log upload to web server...
+
+
+dtd=`date -u +%Y%m%dT%H:%M:%SZ`
+server=$HOSTNAME
+url=https://sedillocanyon.net
+
+log=$1
+name=${log##*/}
+desc=${2:-"$server log"}
+flag=${3:-0}
+action=${4:-"UNKNOWN"}
+size=`stat --printf="%s" $log`
+
+data=`json.sh flag $flag dtd $dtd server $server desc "$desc" log "$name" size $size action $action`
+data=`json.sh data "$data"`
+#echo $data
+
+
+ # upload log file...
+curl --request POST \
+     $url/\$server \
+     -F "file=@$log;filename=$name" > /dev/null 2>&1
+
+# post log to database...
+curl --request POST \
+     -H "Content-Type: application/json" \
+     $url/\$log \
+     -d "$data" > /dev/null 2>&1
+

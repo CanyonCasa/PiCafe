@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# script to setup terminal multiplexer for a specific user.
+# parameters
+
+echo "running parm"
+
+export test="backup"
+
+echo "test defined as '$test'"

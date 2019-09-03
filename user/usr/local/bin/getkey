@@ -1,0 +1,4 @@
+#!/bin/bash
+# get a host RSA public key fingerprint...
+
+ssh-keyscan $1 >/tmp/key; ssh-keygen -lf /tmp/key; rm /tmp/key
